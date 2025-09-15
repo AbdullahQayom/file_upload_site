@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My File Share{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'core/style.css' %}">
+</head>
+<body>
+    <header>
+        <h1>My File Share</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'upload_file' %}">Upload File</a></li>
+                    <li><a href="{% url 'my_files' %}">My Files</a></li>
+                    <li><a href="{% url 'public_files' %}">Public Files</a></li>
+                    <li><a href="{% url 'signout' %}">Logout ({{ user.username }})</a></li>
+                {% else %}
+                    <li><a href="{% url 'signin' %}">Sign In</a></li>
+                    <li><a href="{% url 'signup' %}">Sign Up</a></li>
+                    <li><a href="{% url 'public_files' %}">Public Files</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <!-- 👇 CTA Section -->
+    <section class="cta">
+        <h2>Welcome to My File Share 🚀</h2>
+        <p>Upload, store and share your files securely & easily.</p>
+
+        {% if user.is_authenticated %}
+            <a href="{% url 'upload_file' %}" class="btn">Upload a File</a>
+        {% else %}
+            <a href="{% url 'signup' %}" class="btn">Get Started</a>
+        {% endif %}
+    </section>
+
+    <div class="container main-content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

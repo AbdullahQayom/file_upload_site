@@ -1,0 +1,31 @@
+{% extends 'core/base.html' %}
+{% block title %}Public Files{% endblock %}
+{% block content %}
+    <h2>Publicly Shared Files</h2>
+    <div class="file-list">
+        {% if files %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>File Name</th>
+                        <th>Uploader</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for file in files %}
+                        <tr>
+                            <td>{{ file.filename|default:file.filepath.name }}</td>
+                            <td>{{ file.user.username }}</td>
+                            <td>
+                                <a href="{% url 'download_file' file.id %}" class="btn">Download</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No files are publicly available.</p>
+        {% endif %}
+    </div>
+{% endblock %}

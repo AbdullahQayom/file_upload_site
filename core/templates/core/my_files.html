@@ -1,0 +1,32 @@
+{% extends 'core/base.html' %}
+{% block title %}My Files{% endblock %}
+{% block content %}
+    <h2>My Uploaded Files</h2>
+    <div class="file-list">
+        {% if files %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>File Name</th>
+                        <th>Upload Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for file in files %}
+                        <tr>
+                            <td>{{ file.filename|default:file.filepath.name }}</td>
+                            <td>{{ file.upload_date|date:"F d, Y P" }}</td>
+                            <td>
+                                <a href="{% url 'download_file' file.id %}" class="btn">Download</a>
+                                <a href="{% url 'delete_file' file.id %}" class="btn btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>You have not uploaded any files yet.</p>
+        {% endif %}
+    </div>
+{% endblock %}
